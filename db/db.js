@@ -1,0 +1,22 @@
+const db = [
+    { id: 1, author: 'John Doe', text: 'This company is worth every coin!' },
+    { id: 2, author: 'Amanda Doe', text: 'They really know how to make you happy.' },
+    { id: 3, author: 'James Smith', text: 'Great service and friendly staff.' },
+    { id: 4, author: 'Emily Johnson', text: 'I would recommend them to anyone.' },
+    { id: 5, author: 'Michael Brown', text: 'Top-notch experience from start to finish.' },
+    { id: 6, author: 'Sarah Davis', text: 'They exceeded my expectations.' },
+    { id: 7, author: 'David Wilson', text: 'A+ quality and service.' },
+    { id: 8, author: 'Laura Martinez', text: 'Professional and courteous.' },
+    { id: 9, author: 'Chris Taylor', text: 'Will definitely use them again.' },
+    { id: 10, author: 'Karen Anderson', text: 'Five stars all the way!' },
+    { id: 11, author: 'Robert Thomas', text: 'Couldn’t be happier with the results.' },
+    { id: 12, author: 'Patricia Moore', text: 'They went above and beyond.' },
+    { id: 13, author: 'Charles Jackson', text: 'Absolutely fantastic!' },
+    { id: 14, author: 'Mary White', text: 'Highly skilled and knowledgeable.' },
+    { id: 15, author: 'Paul Harris', text: 'Prompt and efficient service.' },
+    { id: 16, author: 'Jennifer Martin', text: 'Exceptional customer service.' },
+    { id: 17, author: 'Thomas Lee', text: 'They truly care about their customers.' },
+    { id: 18, author: 'Barbara Young', text: 'Affordable and reliable.' },
+    { id: 19, author: 'Mark King', text: 'Great attention to detail.' },
+    { id: 20, author: 'Susan Walker', text: 'They made the process so easy.' }
+];
