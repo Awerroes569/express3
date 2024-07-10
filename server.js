@@ -22,18 +22,18 @@ app.use(express.json());
 
 app.get('/testimonials', (req, res) => {
     console.log('DATABASE',db);
-    res.json(db);
+    res.json(db.testimonials);
 });
 
 app.get('/testimonials/random', (req, res) => {
-    const randomItem = db[Math.floor(Math.random() * db.length)];
+    const randomItem = db.testimonials[Math.floor(Math.random() * db.testimonials.length)];
     console.log('RANDOM ITEM',randomItem);
     res.json(randomItem);
 });
 
 app.get('/testimonials/:id', (req, res) => {
     const id = parseInt(req.params.id, 10);
-    const item = db.find(item => item.id === id);
+    const item = db.testimonials.find(item => item.id === id);
   
     if (item) {
       res.json(item);
@@ -47,10 +47,10 @@ app.post('/testimonials', (req, res) => {
 
     if (author && text) {
         // Find the maximum ID in the current database
-        const maxId = db.reduce((max, item) => (item.id > max ? item.id : max), 0);
+        const maxId = db.testimonials.reduce((max, item) => (item.id > max ? item.id : max), 0);
         const id = maxId + 1;
 
-        db.push({ id, author, text });
+        db.testimonials.push({ id, author, text });
         res.json({ message: 'OK' });
     } else {
         res.status(400).json({ message: 'Error' });
@@ -59,17 +59,12 @@ app.post('/testimonials', (req, res) => {
 
 app.put('/testimonials/:id', (req, res) => {
     const { author, text } = req.body;
-    console.log('BODY',req.body);
-    console.log('AUTHOR',author);
-    console.log('TEXT',text);
 
     const id = parseInt(req.params.id, 10);
-    const item = db.find(item => item.id === id);
-    console.log('ITEM',item);
+    const item = db.testimonials.find(item => item.id === id);
     if (author && text) {
         item.author = author;
         item.text = text;
-        console.log('ITEM',item)
         res.json({ message: 'OK' });
     } else {
         res.status(400).json({ message: 'Error' });
@@ -78,9 +73,9 @@ app.put('/testimonials/:id', (req, res) => {
 
 app.delete('/testimonials/:id', (req, res) => {
     const id = parseInt(req.params.id, 10);
-    const item = db.find(item => item.id === id);
+    const item = db.testimonials.find(item => item.id === id);
     if (item) {
-        db.splice(db.indexOf(item), 1);
+        db.testimonials.splice(db.testimonials.indexOf(item), 1);
         res.json({ message: 'OK' });
     } else {
         res.status(404).json({ message: 'Error' });
