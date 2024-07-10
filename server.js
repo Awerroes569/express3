@@ -1,16 +1,11 @@
 const express = require('express');
 const path = require('path');
-//const hbs = require('express-handlebars');
-//const bodyParser = require('body-parser');
-//const multer = require('multer');
 const {db} = require('./db/db');
 
 const app = express();
-
-//HANDLEBARS
-
-//app.engine('.hbs', hbs.engine());
-//app.set('view engine', '.hbs');
+const testimonialsRoutes = require('./routes/testimonials.routes');
+const concertsRoutes = require('./routes/concerts.routes');
+const seatsRoutes = require('./routes/seats.routes');   
 
 //MIDDLEWARES
 
@@ -19,68 +14,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 //ENDPOINTS
-
-app.get('/testimonials', (req, res) => {
-    console.log('DATABASE',db);
-    res.json(db.testimonials);
-});
-
-app.get('/testimonials/random', (req, res) => {
-    const randomItem = db.testimonials[Math.floor(Math.random() * db.testimonials.length)];
-    console.log('RANDOM ITEM',randomItem);
-    res.json(randomItem);
-});
-
-app.get('/testimonials/:id', (req, res) => {
-    const id = parseInt(req.params.id, 10);
-    const item = db.testimonials.find(item => item.id === id);
-  
-    if (item) {
-      res.json(item);
-    } else {
-      res.status(404).json({ message: 'Item not found' });
-    }
-});
-
-app.post('/testimonials', (req, res) => {
-    const { author, text } = req.body;
-
-    if (author && text) {
-        // Find the maximum ID in the current database
-        const maxId = db.testimonials.reduce((max, item) => (item.id > max ? item.id : max), 0);
-        const id = maxId + 1;
-
-        db.testimonials.push({ id, author, text });
-        res.json({ message: 'OK' });
-    } else {
-        res.status(400).json({ message: 'Error' });
-    }
-});
-
-app.put('/testimonials/:id', (req, res) => {
-    const { author, text } = req.body;
-
-    const id = parseInt(req.params.id, 10);
-    const item = db.testimonials.find(item => item.id === id);
-    if (author && text) {
-        item.author = author;
-        item.text = text;
-        res.json({ message: 'OK' });
-    } else {
-        res.status(400).json({ message: 'Error' });
-    }
-});
-
-app.delete('/testimonials/:id', (req, res) => {
-    const id = parseInt(req.params.id, 10);
-    const item = db.testimonials.find(item => item.id === id);
-    if (item) {
-        db.testimonials.splice(db.testimonials.indexOf(item), 1);
-        res.json({ message: 'OK' });
-    } else {
-        res.status(404).json({ message: 'Error' });
-    }
-});
+app.use('/api', testimonialsRoutes);
+app.use('/api', concertsRoutes);
+app.use('/api', seatsRoutes);
 
 //ERROR HANDLING
 

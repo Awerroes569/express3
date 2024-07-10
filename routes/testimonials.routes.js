@@ -6,14 +6,12 @@ const testimonials = db.testimonials;
 
 // get all testimonials
 router.route('/testimonials').get((req, res) => {
-    console.log('DATABASE',db);
     res.json(testimonials);
 });
 
 // get one random testimonial
-router.route('/testimonials').get((req, res) => {
+router.route('/testimonials/random').get((req, res) => {
     const randomItem = testimonials[Math.floor(Math.random() * testimonials.length)];
-    console.log('RANDOM ITEM',randomItem);
     res.json(randomItem);
 });
 
@@ -61,7 +59,7 @@ router.route('/testimonials/:id').put((req, res) => {
 });
 
 // delete one testimonial by id
-router.route('/testimonials').delete((req, res) => {
+router.route('/testimonials/:id').delete((req, res) => {
     const id = parseInt(req.params.id, 10);
     const item = testimonials.find(item => item.id === id);
     if (item) {
