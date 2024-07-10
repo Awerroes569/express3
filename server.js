@@ -25,6 +25,12 @@ app.get('/testimonials', (req, res) => {
     res.json(db);
 });
 
+app.get('/testimonials/random', (req, res) => {
+    const randomItem = db[Math.floor(Math.random() * db.length)];
+    console.log('RANDOM ITEM',randomItem);
+    res.json(randomItem);
+});
+
 app.get('/testimonials/:id', (req, res) => {
     const id = parseInt(req.params.id, 10);
     const item = db.find(item => item.id === id);
@@ -34,11 +40,6 @@ app.get('/testimonials/:id', (req, res) => {
     } else {
       res.status(404).json({ message: 'Item not found' });
     }
-});
-
-app.get('/testimonials/random', (req, res) => {
-    const randomItem = db[Math.floor(Math.random() * db.length)];
-    res.json(randomItem);
 });
 
 app.post('/testimonials', (req, res) => {
@@ -58,12 +59,17 @@ app.post('/testimonials', (req, res) => {
 
 app.put('/testimonials/:id', (req, res) => {
     const { author, text } = req.body;
+    console.log('BODY',req.body);
+    console.log('AUTHOR',author);
+    console.log('TEXT',text);
 
     const id = parseInt(req.params.id, 10);
     const item = db.find(item => item.id === id);
+    console.log('ITEM',item);
     if (author && text) {
         item.author = author;
         item.text = text;
+        console.log('ITEM',item)
         res.json({ message: 'OK' });
     } else {
         res.status(400).json({ message: 'Error' });
