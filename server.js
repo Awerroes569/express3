@@ -1,41 +1,31 @@
 const express = require('express');
 const path = require('path');
-const hbs = require('express-handlebars');
-const bodyParser = require('body-parser');
-const multer = require('multer');
-const db = require('./db/db');
+//const hbs = require('express-handlebars');
+//const bodyParser = require('body-parser');
+//const multer = require('multer');
+const {db} = require('./db/db');
 
 const app = express();
 
 //HANDLEBARS
 
-app.engine('.hbs', hbs.engine());
-app.set('view engine', '.hbs');
-
-//MULTER
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/');
-  },
-  filename: (req, file, cb) => {
-    cb(null, `${Date.now()}-${file.originalname}`); // Create a unique filename for each uploaded file
-  },
-});
-const upload = multer({ storage });
+//app.engine('.hbs', hbs.engine());
+//app.set('view engine', '.hbs');
 
 //MIDDLEWARES
 
-//app.use(express.static(path.join(__dirname, '/public')));
+app.use(express.static(path.join(__dirname, '/public')));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 //ENDPOINTS
 
 app.get('/testimonials', (req, res) => {
+    console.log('DATABASE',db);
     res.json(db);
 });
 
-app.get('/items/:id', (req, res) => {
+app.get('/testimonials/:id', (req, res) => {
     const id = parseInt(req.params.id, 10);
     const item = db.find(item => item.id === id);
   
