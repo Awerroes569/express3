@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const cors = require('cors');
 const {db} = require('./db/db');
 
 const app = express();
@@ -9,6 +10,7 @@ const seatsRoutes = require('./routes/seats.routes');
 
 //MIDDLEWARES
 
+app.use(cors());
 app.use(express.static(path.join(__dirname, '/public')));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());

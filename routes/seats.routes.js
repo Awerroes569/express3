@@ -29,14 +29,16 @@ router.route('/seats/:id').get((req, res) => {
 
 // post one new seat
 router.route('/seats').post((req, res) => {
-    const { author, text } = req.body;
+    const { day, seat, client, email } = req.body;
 
-    if (author && text) {
+    if (day && seat && client && email) {
         // Find the maximum ID in the current database
         const maxId = seats.reduce((max, item) => (item.id > max ? item.id : max), 0);
         const id = maxId + 1;
 
-        seats.push({ id, author, text });
+        //{ id: 1, day: 1, seat: 3, client: 'Amanda Doe', email: 'amanda87@example.com' },
+
+        seats.push({ id, day, seat, client, email});
         res.json({ message: 'OK' });
     } else {
         res.status(400).json({ message: 'Error' });
@@ -45,13 +47,15 @@ router.route('/seats').post((req, res) => {
 
 // put one seat by id
 router.route('/seats/:id').put((req, res) => {
-    const { author, text } = req.body;
+    const { day, seat, client, email } = req.body;
 
     const id = parseInt(req.params.id, 10);
     const item = seats.find(item => item.id === id);
-    if (author && text) {
-        item.author = author;
-        item.text = text;
+    if (day && seat && client && email) {
+        item.day = day;
+        item.seat = seat;
+        item.client = client;
+        item.email = email;
         res.json({ message: 'OK' });
     } else {
         res.status(400).json({ message: 'Error' });

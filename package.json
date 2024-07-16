@@ -2,6 +2,7 @@
   "name": "express3",
   "packageManager": "yarn@4.2.2",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.19.2",
     "nodemon": "^3.1.4"
   },
