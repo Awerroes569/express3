@@ -24,7 +24,7 @@ const OrderTicketForm = () => {
     }
 
   const finalSeatCheck = async (seatId) => {
-    await loadSeatsRequest();
+    await dispatch(loadSeatsRequest());
     if (isTaken(order.seat, order.day)) {
       setIsError(true);
       return;
@@ -61,6 +61,7 @@ const OrderTicketForm = () => {
         day: 1,
         seat: '',
       });
+      await dispatch(loadSeatsRequest());
       setIsError(false);
     } else {
       setIsError(true);

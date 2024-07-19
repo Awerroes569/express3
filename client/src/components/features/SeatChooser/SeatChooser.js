@@ -17,9 +17,8 @@ const SeatChooser = ({ chosenDay, chosenSeat, updateSeat }) => {
   useEffect(() => {
     const interval = setInterval(() => {
       dispatch(loadSeatsRequest());
-    }, 120000); // 120000 ms = 2 minutes
+    }, 120000); 
 
-    // Cleanup interval on unmount
     return () => clearInterval(interval);
   }, [dispatch]);
 
