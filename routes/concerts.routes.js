@@ -29,9 +29,10 @@ router.route('/concerts/:id').get((req, res) => {
 
 // post one new concert
 router.route('/concerts').post((req, res) => {
-    const { author, text } = req.body;
+    //{ id: 1, performer: 'John Doe', genre: 'Rock', price: 25, day: 1, image: '/img/uploads/1fsd324fsdg.jpg' },
+    const { performer, genre, price, day, image } = req.body;
 
-    if (author && text) {
+    if (performer && genre && price && day && image) {
         // Find the maximum ID in the current database
         const maxId = concerts.reduce((max, item) => (item.id > max ? item.id : max), 0);
         const id = maxId + 1;

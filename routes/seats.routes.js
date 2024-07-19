@@ -4,6 +4,10 @@ const {db} = require('../db/db');
 
 const seats = db.seats;
 
+const isTaken = (seat, day) => {
+     seats.some(item => (item.seat === seat && item.day === day));
+};
+
 // get all seats
 router.route('/seats').get((req, res) => {
     res.json(seats);
@@ -36,10 +40,10 @@ router.route('/seats').post((req, res) => {
         const maxId = seats.reduce((max, item) => (item.id > max ? item.id : max), 0);
         const id = maxId + 1;
 
-        //{ id: 1, day: 1, seat: 3, client: 'Amanda Doe', email: 'amanda87@example.com' },
-
         seats.push({ id, day, seat, client, email});
         res.json({ message: 'OK' });
+    } else if (isTaken(seat, day)) {
+        res.status(400).json({ message: 'This seat is already taken...' });
     } else {
         res.status(400).json({ message: 'Error' });
     }
