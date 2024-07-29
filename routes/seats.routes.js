@@ -41,6 +41,10 @@ router.route('/seats').post((req, res) => {
         const id = maxId + 1;
 
         seats.push({ id, day, seat, client, email});
+
+        //EMIT
+        req.io.emit('seatsUpdated', seats);
+        
         res.json({ message: 'OK' });
     } else if (isTaken(seat, day)) {
         res.status(400).json({ message: 'This seat is already taken...' });

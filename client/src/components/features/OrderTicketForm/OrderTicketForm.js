@@ -61,7 +61,7 @@ const OrderTicketForm = () => {
         day: 1,
         seat: '',
       });
-      await dispatch(loadSeatsRequest());
+      //await dispatch(loadSeatsRequest());
       setIsError(false);
     } else {
       setIsError(true);

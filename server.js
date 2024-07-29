@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const {db} = require('./db/db');
+const socket = require('socket.io');
 
 const app = express();
 const testimonialsRoutes = require('./routes/testimonials.routes');
@@ -10,6 +11,10 @@ const seatsRoutes = require('./routes/seats.routes');
 
 //MIDDLEWARES
 
+app.use((req, res, next) => {
+  req.io = io;
+  next();
+});
 app.use(cors());
 //app.use(express.static(path.join(__dirname, '/public')));
 // Serve static files from the React app
@@ -34,6 +39,12 @@ app.use((req, res) => {
 
 //LISTENING
 
-app.listen(process.env.PORT || 8000, () => {
+const server = app.listen(process.env.PORT || 8000, () => {
   console.log('Server is running on port: 8000');
+});
+
+const io = socket(server);
+
+io.on('connection', (socket) => {
+  console.log('New socket!');
 });
