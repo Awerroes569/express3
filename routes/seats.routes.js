@@ -42,7 +42,7 @@ router.route('/seats').post((req, res) => {
 
         seats.push({ id, day, seat, client, email});
 
-        //EMIT
+        // Send the updated seats array to all connected clients
         req.io.emit('seatsUpdated', seats);
         
         res.json({ message: 'OK' });

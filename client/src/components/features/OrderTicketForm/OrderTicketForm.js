@@ -1,5 +1,5 @@
 import { Button, Form, FormGroup, Label, Input, Row, Col, Alert, Progress } from 'reactstrap';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addSeatRequest, getRequests, getSeats, loadSeatsRequest } from '../../../redux/seatsRedux';
 
@@ -10,6 +10,9 @@ const OrderTicketForm = () => {
   const dispatch = useDispatch();
   const requests = useSelector(getRequests);
   const seats = useSelector(getSeats);
+
+  const checkboxRef = useRef(null);
+  const [isChecked, setIsChecked] = useState(false);
 
   const [order, setOrder] = useState({
     client: '',
@@ -58,10 +61,10 @@ const OrderTicketForm = () => {
       setOrder({
         client: '',
         email: '',
-        day: 1,
+        day: order.day,
         seat: '',
       });
-      //await dispatch(loadSeatsRequest());
+      setIsChecked(false);
       setIsError(false);
     } else {
       setIsError(true);
@@ -69,7 +72,10 @@ const OrderTicketForm = () => {
   };
 
   return (
-    <Form className="order-ticket-form" onSubmit={submitForm}>
+    <Form 
+      className="order-ticket-form"
+      onSubmit={submitForm}
+    >
       <Row>
         <Col xs="12" md="6">
           { (isError) && <Alert color="warning">There are some errors in you form. Have you fill all the fields? Maybe you forgot to choose your seat?</Alert> }
@@ -77,34 +83,87 @@ const OrderTicketForm = () => {
           { (requests['ADD_SEAT'] && requests['ADD_SEAT'].success && !isError) && <Alert color="success">You've booked your ticket! Check you email in order to make a payment.</Alert> }
           { (requests['ADD_SEAT'] && requests['ADD_SEAT'].pending) && <Progress animated className="mb-5" color="primary" value={75} /> }
           <FormGroup>
-            <Label for="clientEmail">Name</Label>
-            <Input type="text" value={order.client} name="client" onChange={updateTextField} id="clientName" placeholder="John Doe" />
+            <Label for="clientEmail">
+              Name
+            </Label>
+            <Input
+              type="text"
+              value={order.client}
+              name="client"
+              onChange={updateTextField}
+              id="clientName"
+              placeholder="John Doe"
+            />
           </FormGroup>
           <FormGroup>
-            <Label for="clientEmail">Email</Label>
-            <Input type="email" value={order.email} name="email" onChange={updateTextField} id="clientEmail" placeholder="johndoe@example.com" />
+            <Label for="clientEmail">
+              Email
+            </Label>
+            <Input
+              type="email"
+              value={order.email}
+              name="email"
+              onChange={updateTextField}
+              id="clientEmail"
+              placeholder="johndoe@example.com"
+            />
           </FormGroup>
           <FormGroup>
-            <Label for="clientDay">Select which day of festivals are you interested in:</Label>
-            <Input type="select" value={order.day} name="day" onChange={updateNumberField} id="exampleSelect">
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
+            <Label for="clientDay">
+              Select which day of festivals are you interested in:
+            </Label>
+            <Input
+              type="select"
+              value={order.day}
+              name="day"
+              onChange={updateNumberField}
+              id="exampleSelect"
+            >
+              <option>
+                1
+              </option>
+              <option>
+                2
+              </option>
+              <option>
+                3
+              </option>
             </Input>
-            <small id="dayHelp" className="form-text text-muted">Every day of the festival uses individual ticket. You can book only one ticket at the time.</small>
+            <small
+              id="dayHelp"
+              className="form-text text-muted"
+            >
+              Every day of the festival uses individual ticket. You can book only one ticket at the time.
+            </small>
           </FormGroup>
           <FormGroup check>
             <Label check>
-              <Input required type="checkbox" /> I agree with <a href="/terms-and-conditions">Terms and conditions</a> and <a href="/privacy-policy">Privacy Policy</a>.
+              <Input
+                required
+                type="checkbox"
+                ref={checkboxRef}
+                checked={isChecked}
+                onChange={(e) => setIsChecked(e.target.checked)}
+              /> 
+                I agree with <a href="/terms-and-conditions">Terms and conditions</a> and <a href="/privacy-policy">Privacy Policy</a>.
             </Label>
           </FormGroup>
-          <Button color="primary" className="mt-3">Submit</Button>
+          <Button
+            color="primary"
+            className="mt-3"
+          >
+            Submit
+          </Button>
         </Col>
-        <Col xs="12" md="6">
+        <Col
+          xs="12"
+          md="6"
+        >
           <SeatChooser 
             chosenDay={order.day}
             chosenSeat={order.seat} 
-            updateSeat={updateSeat} />
+            updateSeat={updateSeat}
+          />
         </Col>
       </Row>
     </Form>
